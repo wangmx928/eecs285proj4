@@ -71,6 +71,11 @@ public class Song
     String output = String.format("%s - %s    #Request: %s", songTitle, artist,
         voteCount.toString());
   }
+  public String playlistString()
+  {
+    String output = String.format("%s - %s", songTitle, artist);
+  }
+  
 }
 
 

@@ -35,26 +35,6 @@ public class ClientThread extends Thread
       {
         sendList();
       }
-      else if (action == ConnectionActionTypeEnum.SONG_REQUEST)
-      {
-        String songTitle;
-        while(inData.at(i) != :)
-        {
-          songTitle = songTitle + inData.at(i);
-          ++i;
-        }
-        String artist;
-        while(inData.at(i) != :)
-        {
-          artist = artist + inData.at(i);
-          ++i;
-        }
-        //TODO
-        DefaultListModel<String> songRequestList = ManagerForm.getRequestList();
-        songRequestList.add(//TODO song info ctor)
-        ManagerForm.updateRequestList(songRequestList);
-        sendList();
-      }
       else if (action == ConnectionActionTypeEnum.VOTE)
       {
         String songTitle;
