@@ -1,0 +1,81 @@
+Design Document for EECS 285 project 4
+Team: Collabrative Jukebox
+Members: Cory Odell, Ivy Wang, Lu Wang, Rolf Bates, and Tami VanOmen
+
+
+Project Overview:
+    The goal of the project is to create a java app that will allow users to colaborate on a music playlist.
+    One user will host a playlist, and invite other users to make suggestions for the playlist. The host can 
+    then play songs from the playlist in the app. Users may add suggestions for songs and vote on other users' 
+    suggestions.
+
+Design:
+
+    GUI:
+    There will be two GUIs, one for a playlist host, and others for invitees.
+
+    Music Player:
+    There will be a built in MP3 player that can play files from the host's computer. 
+
+    Playlist:
+    Shows the list of songs in order chosen by playlist host.
+
+    Requests:
+    Users may submit song requests in the form of Strings as names of songs and any other pertinent information.
+
+    Network:
+    The playlist host will act as a server, and all other users will connect to his/her computer as clients. Users may submit  
+    Song Requests, Vote on other requests, or request the updated playlist from the host.
+
+Connecting these elements:
+    The GUI will have buttons and text fields that users may use to perform actions. Eahc of these actions will
+    trigger the other components to perform a task. 
+    
+    Data from song requsets or the playlist must be serializable (have a toString method) in order to transfer it over the
+    network. There should also be delimeters so that the recieving side can parse the data properly.
+    
+    Data to Transfer:
+    TODO We need to decide on these formats
+    <field>Delimeter<Field>Delimeter...
+    
+    Request to Playlist to Music Player:
+    The music player needs a file path for the song, so that data needs to be stored with whatever info we use to display the 
+    songs. It would be nice to show info like Title, Artist, etc. 
+    The host must select songs from her music library, so requests must be in the form of Strings.
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
