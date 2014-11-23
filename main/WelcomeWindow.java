@@ -80,8 +80,7 @@ public class WelcomeWindow extends JFrame {
         JPanel totalPanel = new JPanel();
         totalPanel.setLayout(new BoxLayout(totalPanel, BoxLayout.PAGE_AXIS));
         totalPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        totalPanel.setBackground(Color.WHITE);
-        totalPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 15));
+        totalPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         
         totalPanel.add(welcomeLabel);
         totalPanel.add(Box.createVerticalStrut(30));
