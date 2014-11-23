@@ -1,7 +1,7 @@
 package eecs285.proj4;
 /**
  * Thread class for all clients.
- * Each client added has thier own thread
+ * Each client added has their own thread
  * activated with
  * ClientThread()
  * ClientThread.start()
@@ -9,84 +9,54 @@ package eecs285.proj4;
  */
 public class ClientThread extends Thread
 {
+  // thread for cur client
+  private String clientThreadName;
   private ClientServerSocket clientSocket;
-  public ClientThread(ClientServerSocket inClientSocket)
+  
+  public ClientThread(ClientServerSocket inClientSocket, String clientName)
   {
+	// get the clientName which can be shown on GUI
+	clientThreadName = clientName;
+	// for Debug information: client input Name
+	System.out.println("Creating " + clientThreadName);
+	
+	// initialize the clientSocket
     clientSocket = inClientSocket;
-    sendList();
+    
   }
 
   public void run()
   {
-    //setup vars
+	// for debugging information
+	System.out.println("Running " + clientThreadName);
+	clientSocket.startClient();
+    //setup variables
     while (true)
     {
       String inData = clientSocket.recvString();
-      String action;
-      int i = 0;
-      while(inData.at(i) != :)
-      {
-        action = action + inData.at(i);
-        ++i;
-      }
+      // for debugging information
+      System.out.println("clientSocket recvString: " + inData);
       
+      //TODO parse string
+      ConnectionActionTypeEnum action = null;
           
       if (action == ConnectionActionTypeEnum.LIST_REQUEST)
       {
-        sendList();
+        //send list
       }
-      else if (action == ConnectionActionTypeEnum.VOTE)
+      else if (action == ConnectionActionTypeEnum.SONG_REQUEST)
       {
-        String songTitle;
-        while(inData.at(i) != :)
-        {
-          songTitle = songTitle + inData.at(i);
-          ++i;
-        }
-        String artist;
-        while(inData.at(i) != :)
-        {
-          artist = artist + inData.at(i);
-          ++i;
-        }
-        //TODO
-        DefaultListModel<String> songRequestList = ManagerForm.getRequestList();
-        songToUpdate = songRequestList.find(Song);
-        songToUpdate.vote++;
-        ManagerForm.updateRequestList(songRequestList);
-        
-        sendList();
-        
-        
+        //ask for approval
       }
-      else 
-      {
-        //TODO error
+      else if (action == ConnectionActionTypeEnum.VOTE){
+        //add to vote tally
+      }
+      else {
+    	// for debugging information
+    	System.out.println("Thraed " + clientThreadName + " error");
       }
       
     }
-  }
-  
-  
-  private void sendList()
-  {
-    DefaultListModel<String> playlistListModel = ManagerForm.getPlaylist();
-    DefaultListModel<String> requestListModel = ManagerForm.getRequestList();
-    String toSend("PLAYLIST: ");
-    for(currSong : playlistListModel)
-    {
-      toSend = toSend + currSong.toString();
-    }
-    
-    toSend = toSend + " REQUESTS: ";
-      
-    for(currRequest : requestListModel)
-    {
-      toSend = toSend + currRequest.toString();
-    }
-    clientSocket.sendStr(toSend);
-    return;
-    
   }
 
 }

@@ -6,18 +6,29 @@ import java.util.ArrayList;
 
 public class ClientList
 {
-  private ArrayList <Client> clientList;
+  public static final ArrayList<Client> clientList = new ArrayList<Client>();
   
-  public ClientList()
+  public static void addClient(Client cur)
   {
-    clientList = new ArrayList<Client>();
+    clientList.add(cur);
   }
- 
   
-  public void addClient(ClientServerSocket inClientSocket)
+  public static void addClient(ClientServerSocket inClientSocket, String nickName)
   {
-    clientList.add(new Client(inClientSocket));
+    clientList.add(new Client(inClientSocket, nickName));
   }
+  
+  public static void printArrayList(){
+	  System.out.println("print client list: ");
+	  System.out.println("Size of the list: " + clientList.size());
+	  for(Client cur : clientList){
+		  System.out.println(cur);
+	  }
+  }
+  // TODO 
+  // has bug in ClientList
+  // print out twice  = = 
+  
   
   //TODO removal procedures
   

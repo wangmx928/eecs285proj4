@@ -7,10 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import eecs285.proj4.*;
+
 public class ConnectionWindow extends JFrame {
     
     private JTextArea ipAdd;
     private JTextArea portNum;
+    private JTextArea nameString;
     private JButton connect;
     
     public class ConnectionListener implements ActionListener
@@ -21,13 +24,21 @@ public class ConnectionWindow extends JFrame {
             {
                 try
                 {
+                	String inIpAdd = ipAdd.getText();	
                     Integer inPortNum = Integer.parseInt(portNum.getText());
+                    String inNickName = nameString.getText();
+                    
                     ClientForm myForm = new ClientForm("Playlist Request Form"
                             , ipAdd.getText(), inPortNum);
                     dispose();
                     myForm.pack();
                     myForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     myForm.setVisible(true);
+                    
+                    // start client thread and connection to the server
+                    ClientServerSocket csSocket = new ClientServerSocket(inIpAdd, inPortNum);
+                    //ClientList.addClient(csSocket, inNickName);
+                    Client curClient = new Client(csSocket, inNickName);
                 }
                 catch (NumberFormatException e1)
                 {
@@ -57,6 +68,10 @@ public class ConnectionWindow extends JFrame {
         portNum = new JTextArea();
         portNum.setPreferredSize(new Dimension(80, 20));
         
+        JLabel clientName = new JLabel("Nick Name:");
+        nameString = new JTextArea();
+        nameString.setPreferredSize(new Dimension(80, 20));
+        
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new FlowLayout());
         
@@ -64,6 +79,8 @@ public class ConnectionWindow extends JFrame {
         inputPanel.add(ipAdd);
         inputPanel.add(portLabel);
         inputPanel.add(portNum);
+        inputPanel.add(clientName);
+        inputPanel.add(nameString);
         
         connect = new JButton("Connect");
         connect.setAlignmentX(Component.CENTER_ALIGNMENT);
