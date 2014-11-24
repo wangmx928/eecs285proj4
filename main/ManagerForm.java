@@ -390,5 +390,14 @@ public class ManagerForm extends JFrame {
             libraryList.setModel(libraryListModel);
         }
     }
+    public ListModel<Song> getLibraryListModel()
+    {
+        return libraryListModel;
+    }
+    public ListModel<Song> getPlaylistModel()
+    {
+        return playlistModel;
+    }
+    
     
 }
