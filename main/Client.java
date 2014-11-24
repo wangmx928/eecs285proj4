@@ -18,7 +18,6 @@ public class Client
     // create an instance of ClientServerSocket
     //clientThread = new ClientThread(inClientSocket, clientName);
     // this will start the function run() in ClientThread.java
-    ClientList.addClient(this);
     (new ClientThread(inClientSocket, clientName)).start();
   }
   

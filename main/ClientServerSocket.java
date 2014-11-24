@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.io.DataOutputStream; 
 import java.io.DataInputStream; 
 import java.io.IOException; 
+import java.io.InputStreamReader;
 import java.util.Vector;
 
 import static java.lang.System.out;
@@ -38,8 +39,16 @@ public class ClientServerSocket
        
        System.out.println("socket=" + socket);
        
-        outData = new DataOutputStream(socket.getOutputStream()); 
-        inData = new DataInputStream(socket.getInputStream());
+       outData = new DataOutputStream(socket.getOutputStream()); 
+       if(sendString(incName)){
+         System.out.println("sent data from client \"" + incName + " \" successfully");
+       }
+
+       /** get data from server**/
+       inData = new DataInputStream(socket.getInputStream());
+       String result = recvString();
+       // DEBUG INFORMATION
+       System.out.println("Getting data from server: " + result);
        
        // System.out.println(recvString());
        
@@ -68,7 +77,21 @@ public class ClientServerSocket
 	      // stop until client connects
 	      socket = serverSock.accept();
 	      out.println("Client connection accepted" + socket);
-	      
+	      System.out.println("socket in serverRun: " + socket);
+        
+
+        // get client's nick name here
+        inData = new DataInputStream(socket.getInputStream());
+        String cName = recvString();
+        
+        // send data from server
+        outData = new DataOutputStream(socket.getOutputStream()); 
+        //printWriter = new PrintWriter(socket.getOutputStream()); 
+         if(sendString("Server says Hi to you! Welcome " + cName + "!")){
+           System.out.println("sent data from server successfully");
+         }
+         
+        ClientList.addClient(cName);
 	      // create a new thread to deal with it
 	      (new ServerTask(socket)).start();
 	      
