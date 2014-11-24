@@ -45,12 +45,12 @@ public class Song
         e1.printStackTrace();
         tagError = true;
     }
-    if (songTitle == null || songTitle.trim() == "")
+    if (songTitle == null || songTitle.trim().equals(""))
     {
       songTitle = inFile.getName().substring(0, inFile.getName().length() - 4);
       tagError = true;
     }
-    if (artist == null || artist.trim() == "")
+    if (artist == null || artist.trim().equals(""))
     {
       artist = "Unknown";
       tagError = true;

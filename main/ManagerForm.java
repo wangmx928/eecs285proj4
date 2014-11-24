@@ -106,7 +106,7 @@ public class ManagerForm extends JFrame {
                     if(tagError)
                     {
                         JOptionPane.showMessageDialog(ManagerForm.this, 
-                                "We encountered an error when trying to read "
+                                "We encountered an error when trying to parse "
                                 + "some of your mp3 files.");
                     }
                     sortLibrary();
