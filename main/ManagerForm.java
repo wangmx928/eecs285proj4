@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Locale;
 
 public class ManagerForm extends JFrame {
@@ -164,33 +163,15 @@ public class ManagerForm extends JFrame {
             {
                 if(sortOption.getSelectedItem() == "Song Title")
                 {
-                    Collections.sort(currentLibrary, new SongTitleComparator());
-                    libraryListModel = new DefaultListModel<Song>();
-                    for(Song s : currentLibrary)
-                    {
-                        libraryListModel.addElement(s);
-                    }
-                    libraryList.setModel(libraryListModel);
+                    //sort by song title
                 }
                 else if(sortOption.getSelectedItem() == "Artist")
                 {
-                    Collections.sort(currentLibrary, new SongArtistComparator());
-                    libraryListModel = new DefaultListModel<Song>();
-                    for(Song s : currentLibrary)
-                    {
-                        libraryListModel.addElement(s);
-                    }
-                    libraryList.setModel(libraryListModel);
+                    //sort by artist
                 }
                 else if(sortOption.getSelectedItem() == "Request Count")
                 {
-                    Collections.sort(currentLibrary, new SongVoteComparator());
-                    libraryListModel = new DefaultListModel<Song>();
-                    for(Song s : currentLibrary)
-                    {
-                        libraryListModel.addElement(s);
-                    }
-                    libraryList.setModel(libraryListModel);
+                    //sort by request count
                 }
             }
         }
