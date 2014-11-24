@@ -31,12 +31,14 @@ public class ConnectionWindow extends JFrame {
                     dispose();
                     myForm.pack();
                     myForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    myForm.setVisible(true);
+                    
                     
                     // start client thread and connection to the server
                     ClientServerSocket csSocket = new ClientServerSocket(inIpAdd, 8000);
                     //ClientList.addClient(csSocket, inNickName);
-                    Client curClient = new Client(csSocket, inNickName);
+                    Client curClient = new Client(csSocket, inNickName, myForm);
+                    
+                    myForm.setVisible(true);
                 }
                 catch (NumberFormatException e1)
                 {
@@ -55,8 +57,8 @@ public class ConnectionWindow extends JFrame {
         
         ConnectionListener myListener = new ConnectionListener();
         
-        JLabel instrLabel = new JLabel("Please Enter the IP Address " +
-              "of the Playlist You Wish to Connect to.");
+        JLabel instrLabel = new JLabel("Please Enter the IP Address "
+                + "of the Playlist You Wish to Connect to.");
         
         JLabel ipLabel = new JLabel("IP Address:");
         ipAdd = new JTextArea();

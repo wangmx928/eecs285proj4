@@ -31,14 +31,14 @@ public class ClientServerSocket
     socket = null;
   }
 
-  public void startClient(String incName) 
+  public void startClient(String incName, ClientForm inclientForm) 
   {
      try 
      {
        socket = new Socket(ipAddr, portNum);
        
        System.out.println("socket=" + socket);
-       
+
        outData = new DataOutputStream(socket.getOutputStream()); 
        if(sendString(incName)){
          System.out.println("sent data from client \"" + incName + " \" successfully");
@@ -50,6 +50,11 @@ public class ClientServerSocket
        // DEBUG INFORMATION
        System.out.println("Getting data from server: " + result);
        
+       String newPlaylist = recvString();
+       String newRequestList = recvString();
+       ClientSender clientSender = new ClientSender(this, inclientForm);
+       clientSender.updatePlaylist(newPlaylist);
+       clientSender.updateRequestList(newRequestList);
        // System.out.println(recvString());
        
      }
@@ -93,7 +98,7 @@ public class ClientServerSocket
          
         ClientList.addClient(cName);
 	      // create a new thread to deal with it
-	      (new ServerTask(socket)).start();
+	      (new ServerTask(socket, this)).start();
 	      
 	      
 	      System.out.println("Still running");

@@ -40,7 +40,7 @@ public class ClientSender
                        
                        
     // Changed the way of parsing string here - 24th(15:40)                  
-    private void updateRequestList(String newRequestList)
+    public void updateRequestList(String newRequestList)
     {
       DefaultListModel<Song> updatedRequestList = new DefaultListModel<Song>();
       ArrayList<Song> updatedRequestArrayList = new ArrayList<Song>();
@@ -80,7 +80,7 @@ public class ClientSender
       
     }
                        
-  private void updatePlaylist(String newPlaylist)
+  public void updatePlaylist(String newPlaylist)
   {
                 DefaultListModel<String> updatedPlaylist = new DefaultListModel<String>();
                 String read = "";

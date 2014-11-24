@@ -2,6 +2,8 @@ package eecs285.proj4;
 
 import java.net.Socket;
 
+import javax.swing.DefaultListModel;
+
 public class ServerThread extends Thread{
 
 	  // thread for cur server
@@ -15,6 +17,7 @@ public class ServerThread extends Thread{
 		System.out.println("Creating Server Thread");
 		// initialize the clientSocket
 		serverSocket = inserverSocket;
+		
 	  }
 
 	  public void run()
@@ -24,7 +27,7 @@ public class ServerThread extends Thread{
 	    //start server
 	     serverSocket.startServer();
 	    
-	    System.out.println("server closed");
 	  }
-	  
+
+
 }

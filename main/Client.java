@@ -10,7 +10,7 @@ public class Client
   private ClientServerSocket clientSocket;
   private String clientName;
   
-  public Client(ClientServerSocket inClientSocket, String nickName)
+  public Client(ClientServerSocket inClientSocket, String nickName, ClientForm inClientForm)
   {
     clientSocket = inClientSocket;
     clientName = nickName;
@@ -18,7 +18,7 @@ public class Client
     // create an instance of ClientServerSocket
     //clientThread = new ClientThread(inClientSocket, clientName);
     // this will start the function run() in ClientThread.java
-    (new ClientThread(inClientSocket, clientName)).start();
+    (new ClientThread(inClientSocket, clientName, inClientForm)).start();
   }
   
   public String toString()
