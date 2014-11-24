@@ -35,7 +35,7 @@ public class SendMailTLS {
  
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO,
+            message.setRecipients(Message.RecipientType.BCC,
                 InternetAddress.parse(addressList));
             message.setSubject("You have been invited to request songs for a playlist!");
             String messageText = "Hello,\n\n" + "You have been invited "
@@ -43,15 +43,15 @@ public class SendMailTLS {
                     + "open up the playlist manager program, select 'Submit a "
                     + "Request for an Existing Playlist', and type in the "
                     + "provided IP Address and Port Number\n\n"
-                    + "IP Address: \n"
-                    + "Port Number: \n\n"
+                    + "IP Address: " + ip + "\n"
+                    + "Port Number: " + portNum + "\n\n"
                     + "Have fun!";
             message.setText(messageText);
  
             Transport.send(message);
  
         } catch (MessagingException e) {
-            //
+            e.printStackTrace();
         }
     }
 }

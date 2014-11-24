@@ -13,9 +13,9 @@ public class FileListCellRenderer extends DefaultListCellRenderer {
                                  boolean isSelected,
                                  boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        if (value instanceof File) {
-            File listFile = (File)value;
-            setText(listFile.getName().substring(0, listFile.getName().length() - 4));
+        if (value instanceof Song) {
+            Song listFile = (Song)value;
+            setText(listFile.playlistString());
         }
         return this;
     }

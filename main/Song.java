@@ -1,5 +1,8 @@
 package eecs285.proj4;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 
@@ -9,36 +12,44 @@ public class Song
   private Integer voteCount;
   private String artist;
   private String songTitle;
+  
+  private boolean tagError;
 
   public Song(File inFile)
   {
+    tagError = false;
     fileName = inFile;
-    MP3File mp3 = new MP3File(inFile);
-    try 
-    {
-      songTitle = mp3.getID3v1Tag().getSongTitle();
+    MP3File mp3;
+    try {
+        mp3 = new MP3File(inFile);
+        songTitle = mp3.getID3v1Tag().getSongTitle();
+        artist = mp3.getID3v1Tag().getArtist();
+    } catch (IOException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+        tagError = true;
+    } catch (TagException e1) {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+        tagError = true;
+    } catch (NullPointerException e1) {
+        e1.printStackTrace();
+        tagError = true;
     }
-    catch (TagException e)
+    if (songTitle == "" || songTitle == null)
     {
-      songTitle = listFile.getName().substring(0, listFile.getName().length() - 4);
+      songTitle = inFile.getName().substring(0, inFile.getName().length() - 4);
     }
-    try
-    {
-      artist = mp3.getID3v1Tag().getArtist();
-    }
-    catch
-    {
-      artist = "Unknown";
-    }
-    if (songTitle == "")
-    {
-      songTitle = listFile.getName().substring(0, listFile.getName().length() - 4);
-    }
-    if (artist == "")
+    if (artist == "" || artist == null)
     {
       artist = "Unknown";
     }
     voteCount = 0;
+  }
+  
+  public boolean getTagError()
+  {
+      return tagError;
   }
 
   public void addOneVote()
@@ -70,10 +81,12 @@ public class Song
   {
     String output = String.format("%s - %s    #Request: %s", songTitle, artist,
         voteCount.toString());
+    return output;
   }
   public String playlistString()
   {
     String output = String.format("%s - %s", songTitle, artist);
+    return output;
   }
   
 }

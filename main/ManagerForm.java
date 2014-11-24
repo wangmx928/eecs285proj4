@@ -15,7 +15,7 @@ import java.util.Locale;
 
 public class ManagerForm extends JFrame {
     
-    private ArrayList <File> currentLibrary;
+    private ArrayList<Song> currentLibrary;
     
     private JButton addSongs;
     private JButton clearLibrary;
@@ -26,13 +26,12 @@ public class ManagerForm extends JFrame {
     private JButton stop;
     private JButton emptyPlaylist;
     private JButton removeSong;
+    private JComboBox <String> sortOption;
     
-    private JList<File> requestList;
-    private JList<File> libraryList;
-    private JList<File> playlist;
-    private DefaultListModel<File> requestListModel;
-    private DefaultListModel<File> libraryListModel;
-    private DefaultListModel<File> playlistModel;
+    private JList<Song> libraryList;
+    private JList<Song> playlist;
+    private DefaultListModel<Song> libraryListModel;
+    private DefaultListModel<Song> playlistModel;
     
     private MusicPlayer myPlayer;
     
@@ -51,9 +50,9 @@ public class ManagerForm extends JFrame {
                 {
                 return;
                 };
-                libraryListModel = new DefaultListModel<File>();
+                libraryListModel = new DefaultListModel<Song>();
                 libraryList.setModel(libraryListModel);
-                currentLibrary = new ArrayList<File>();
+                currentLibrary = new ArrayList<Song>();
             }
             else if(e.getSource() == playPause)
             {
@@ -92,25 +91,43 @@ public class ManagerForm extends JFrame {
                         String fileName = f.getName();
                         if(fileName.substring(fileName.lastIndexOf(".")).equals(".mp3"))
                         {
-                            libraryListModel.addElement(f);
-                            currentLibrary.add(f);
+                            libraryListModel.addElement(new Song(f));
+                            currentLibrary.add(new Song(f));
                         }
+                    }
+                    boolean tagError = false;
+                    for(Song s : currentLibrary)
+                    {
+                        if(s.getTagError() == true)
+                        {
+                            tagError = true;
+                        }
+                    }
+                    if(tagError)
+                    {
+                        JOptionPane.showMessageDialog(ManagerForm.this, 
+                                "We encountered an error when trying to read "
+                                + "some of your mp3 files.");
                     }
                 }
             }
             else if(e.getSource() == setPlaylistToLibrary)
             {
-                playlistModel = new DefaultListModel<File>();
+                playlistModel = new DefaultListModel<Song>();
                 myPlayer.songs = new ArrayList<File>();
-                for(File f : currentLibrary)
+                for(Song s : currentLibrary)
                 {
-                    (myPlayer.songs).add(f);
-                    playlistModel.addElement(f);
+                    (myPlayer.songs).add(s.getFile());
+                    playlistModel.addElement(s);
                 }
                 playlist.setModel(playlistModel);
             }
             else if(e.getSource() == removeSong)
             {
+                if(playlist.getSelectedIndex() <= myPlayer.i)
+                {
+                    myPlayer.i -= 1;
+                }
                 myPlayer.songs.remove(playlist.getSelectedIndex());
                 playlistModel.remove(playlist.getSelectedIndex());
                 playlist.setModel(playlistModel);
@@ -127,19 +144,41 @@ public class ManagerForm extends JFrame {
                 {
                 return;
                 };
-                playlistModel = new DefaultListModel<File>();
+                playlistModel = new DefaultListModel<Song>();
                 myPlayer.songs = new ArrayList<File>();
                 playlist.setModel(playlistModel);
             }
             else if(e.getSource() == inviteFriends)
             {
-                //sendEmails = new SendMailTLS()
+                EmailForm myEmailForm = new EmailForm(ManagerForm.this, "Enter Email Recipients");
+                myEmailForm.pack();
+                String addressList = myEmailForm.showDialog();
+                if(addressList != "")
+                {
+                    SendMailTLS sendEmails = new SendMailTLS();
+                    sendEmails.emailMe(addressList, "Test", 4234);
+                }
+            }
+            else if(e.getSource() == sortOption)
+            {
+                if(sortOption.getSelectedItem() == "Song Title")
+                {
+                    //sort by song title
+                }
+                else if(sortOption.getSelectedItem() == "Artist")
+                {
+                    //sort by artist
+                }
+                else if(sortOption.getSelectedItem() == "Request Count")
+                {
+                    //sort by request count
+                }
             }
         }
         
     }
     
-    public ManagerForm(String inTitle, ArrayList<File> mp3s)
+    public ManagerForm(String inTitle, ArrayList<Song> mp3s)
     {
         super(inTitle);
         
@@ -150,6 +189,7 @@ public class ManagerForm extends JFrame {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
         setResizable(false);
         
+        /*
         JScrollPane requestListPane = new JScrollPane();
         requestList = new JList<File>();
         requestListModel = new DefaultListModel<File>();
@@ -159,13 +199,15 @@ public class ManagerForm extends JFrame {
         
         JPanel requestListPanel = new JPanel();
         requestListPanel.setLayout(new BorderLayout());
+        */
         
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.PAGE_AXIS));
-        JLabel requestListLabel = new JLabel("Current Request List:");
+        //JLabel requestListLabel = new JLabel("Current Request List:");
               
-        requestListPanel.add(requestListLabel, BorderLayout.NORTH);
-        requestListPanel.add(requestListPane, BorderLayout.CENTER);
+        /*requestListPanel.add(requestListLabel, BorderLayout.NORTH);
+        requestListPanel.add(requestListPane, BorderLayout.CENTER);*/
+        
         
         JPanel libraryButtonsPanel = new JPanel();
         libraryButtonsPanel.setLayout(new FlowLayout());
@@ -178,19 +220,18 @@ public class ManagerForm extends JFrame {
         libraryButtonsPanel.add(clearLibrary);
         
         JScrollPane libraryPane = new JScrollPane();
-        libraryList = new JList<File>();
-        libraryList.setCellRenderer(new FileListCellRenderer());
+        libraryList = new JList<Song>();
         libraryList.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if(e.getClickCount() == 2)
                 {
                     playlistModel.addElement(libraryList.getSelectedValue());
                     playlist.setModel(playlistModel);
-                    myPlayer.addSong(libraryList.getSelectedValue());
+                    myPlayer.addSong(libraryList.getSelectedValue().getFile());
                 }
             }
         });
-        libraryListModel = new DefaultListModel<File>();
+        libraryListModel = new DefaultListModel<Song>();
         
         updateLibrary();
         libraryPane.setViewportView(libraryList);
@@ -201,8 +242,23 @@ public class ManagerForm extends JFrame {
         libraryPanel.setLayout(new BorderLayout());
         libraryPanel.add(libraryListLabel, BorderLayout.NORTH);
         libraryPanel.add(libraryPane, BorderLayout.CENTER);
+        
+        JPanel sortingPanel = new JPanel();
+        sortingPanel.setLayout(new FlowLayout());
+        
+        JLabel sortLabel = new JLabel("Sort Library By:");
+        
+        sortOption = new JComboBox<String>();
+        sortOption.addItem("Song Title");
+        sortOption.addItem("Artist");
+        sortOption.addItem("Request Count");
+        sortOption.addActionListener(myActionListener);
+        
+        sortingPanel.add(sortLabel);
+        sortingPanel.add(sortOption);
 
-        leftPanel.add(requestListPanel);
+        //leftPanel.add(requestListPanel);
+        leftPanel.add(sortingPanel);
         leftPanel.add(libraryPanel);
         leftPanel.add(libraryButtonsPanel);
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -212,8 +268,8 @@ public class ManagerForm extends JFrame {
         
         JLabel playlistLabel = new JLabel("Current Playlist:");
         JScrollPane playlistPane = new JScrollPane();
-        playlist = new JList<File>();
-        playlistModel = new DefaultListModel<File>();
+        playlist = new JList<Song>();
+        playlistModel = new DefaultListModel<Song>();
         playlist.setModel(playlistModel);
         playlist.setCellRenderer(new FileListCellRenderer());
         playlistPane.setViewportView(playlist);
@@ -297,10 +353,10 @@ public class ManagerForm extends JFrame {
     
     private void updateLibrary()
     {
-        libraryListModel = new DefaultListModel<File>();
-        for(File f : currentLibrary)
+        libraryListModel = new DefaultListModel<Song>();
+        for(Song s : currentLibrary)
         {
-            libraryListModel.addElement(f);
+            libraryListModel.addElement(s);
         }
         libraryList.setModel(libraryListModel);
     }

@@ -22,9 +22,9 @@ public class MusicPlayer
   public BasicPlayer player = new BasicPlayer();
   public PlayerListener playerListener = new PlayerListener();
   
-  private JList<File> playlist;
+  private JList<Song> playlist;
   
-  public MusicPlayer(ArrayList <File> args, JList<File> inPlaylist)
+  public MusicPlayer(ArrayList <File> args, JList<Song> inPlaylist)
   {
     songs = new ArrayList <File>();
     for (File f : args)
@@ -123,7 +123,7 @@ public class MusicPlayer
       i = i % songs.size();
       playlist.setSelectedIndex(i);
 
-      player.stop();
+      player.pause();
       startMusic();
     }
     catch( BasicPlayerException e )
@@ -136,7 +136,7 @@ public class MusicPlayer
   {
     try
     {
-      player.stop();
+      player.pause();
       player = new BasicPlayer();
       i = 0;
       playlist.setSelectedIndex(i);
@@ -158,7 +158,7 @@ public class MusicPlayer
     {
       i = index;
       playlist.setSelectedIndex(i);
-      player.stop();
+      player.pause();
       startMusic();
     }
     catch( BasicPlayerException e )
@@ -208,8 +208,7 @@ public class MusicPlayer
       System.out.println("State Updated " + player.getStatus());
       if (player.getStatus() == 2)
       {
-        if (i == -1) stopMusic();
-        //MusicGUI.setCurrentSongDisplay("");
+        skipMusic();
       }
       else if (player.getStatus() == -1)
       {
