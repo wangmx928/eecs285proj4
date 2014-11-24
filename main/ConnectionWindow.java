@@ -12,7 +12,6 @@ import eecs285.proj4.*;
 public class ConnectionWindow extends JFrame {
     
     private JTextArea ipAdd;
-    private JTextArea portNum;
     private JTextArea nameString;
     private JButton connect;
     
@@ -25,18 +24,17 @@ public class ConnectionWindow extends JFrame {
                 try
                 {
                 	String inIpAdd = ipAdd.getText();	
-                    Integer inPortNum = Integer.parseInt(portNum.getText());
                     String inNickName = nameString.getText();
                     
                     ClientForm myForm = new ClientForm("Playlist Request Form"
-                            , ipAdd.getText(), inPortNum);
+                            , ipAdd.getText(), 8000);
                     dispose();
                     myForm.pack();
                     myForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     myForm.setVisible(true);
                     
                     // start client thread and connection to the server
-                    ClientServerSocket csSocket = new ClientServerSocket(inIpAdd, inPortNum);
+                    ClientServerSocket csSocket = new ClientServerSocket(inIpAdd, 8000);
                     //ClientList.addClient(csSocket, inNickName);
                     Client curClient = new Client(csSocket, inNickName);
                 }
@@ -57,16 +55,12 @@ public class ConnectionWindow extends JFrame {
         
         ConnectionListener myListener = new ConnectionListener();
         
-        JLabel instrLabel = new JLabel("Please Enter the IP Address and Port "
-                + "Number of the Playlist You Wish to Connect to.");
+        JLabel instrLabel = new JLabel("Please Enter the IP Address " +
+              "of the Playlist You Wish to Connect to.");
         
         JLabel ipLabel = new JLabel("IP Address:");
         ipAdd = new JTextArea();
         ipAdd.setPreferredSize(new Dimension(100, 20));
-        
-        JLabel portLabel = new JLabel("Port Number:");
-        portNum = new JTextArea();
-        portNum.setPreferredSize(new Dimension(80, 20));
         
         JLabel clientName = new JLabel("Nick Name:");
         nameString = new JTextArea();
@@ -77,8 +71,6 @@ public class ConnectionWindow extends JFrame {
         
         inputPanel.add(ipLabel);
         inputPanel.add(ipAdd);
-        inputPanel.add(portLabel);
-        inputPanel.add(portNum);
         inputPanel.add(clientName);
         inputPanel.add(nameString);
         
