@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
  
 public class SendMailTLS {
  
-    public void emailMe(String addressList, String ip, Integer portNum) {
+    public void emailMe(String addressList, String ip) {
  
         final String username = "playlistmanagerinvites@gmail.com";
         final String password = "eecs285project";
@@ -43,8 +43,7 @@ public class SendMailTLS {
                     + "open up the playlist manager program, select 'Submit a "
                     + "Request for an Existing Playlist', and type in the "
                     + "provided IP Address and Port Number\n\n"
-                    + "IP Address: " + ip + "\n"
-                    + "Port Number: " + portNum + "\n\n"
+                    + "IP Address: " + ip + "\n\n"
                     + "Have fun!";
             message.setText(messageText);
  

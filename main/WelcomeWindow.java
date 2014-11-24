@@ -36,25 +36,30 @@ public class WelcomeWindow extends JFrame {
                     ArrayList <Song> songs = new ArrayList<Song>();
                     for(File f : allFiles)
                     {
-                        String fileName = f.getName();
-                        if(fileName.substring(fileName.lastIndexOf(".")).equals(".mp3"))
+                        try
                         {
-                            songs.add(new Song(f));  
+                            String fileName = f.getName();
+                            if(fileName.substring(fileName.lastIndexOf(".")).equals(".mp3"))
+                            {
+                                songs.add(new Song(f));  
+                            }
                         }
+                        catch (StringIndexOutOfBoundsException e1)
+                        {
+                            //Do nothing
+                        }
+                        
                     }
                     dispose();
-                    ManagerForm playlistForm = new ManagerForm("Playlist Manager", songs);
-                    playlistForm.pack();
-                    playlistForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    playlistForm.setVisible(true);
-                    
                     
                     // creating the server side
                     ClientServerSocket serverSock;
+                    String ipAddress = "";
                     try {
                         // debug information
                         System.out.println(Inet4Address.getLocalHost().getHostAddress());
-                        serverSock = new ClientServerSocket(Inet4Address.getLocalHost().getHostAddress(), 9999);
+                        serverSock = new ClientServerSocket(Inet4Address.getLocalHost().getHostAddress(), 8000);
+                        ipAddress = Inet4Address.getLocalHost().getHostAddress();
                         
                         // new thread running
                         (new ServerThread(serverSock)).start();
@@ -62,6 +67,12 @@ public class WelcomeWindow extends JFrame {
                         System.out.println("Error of unknown host");
                         System.exit(10);
                     }
+                    
+                    ManagerForm playlistForm = new ManagerForm("Playlist Manager", songs, ipAddress);
+                    playlistForm.pack();
+                    playlistForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                    playlistForm.setVisible(true);
+                    
                     boolean tagError = false;
                     for(Song s : songs)
                     {
