@@ -98,4 +98,13 @@ public class ClientForm extends JFrame {
         add(totalPanel);
     }
     
+    public ListModel<Song> getRequestListModel()
+    {
+        return requestListModel;
+    }
+    public ListModel<Song> getPlaylistModel()
+    {
+        return playlistModel;
+    }
+    
 }
