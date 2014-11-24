@@ -31,7 +31,7 @@ public class ClientServerSocket
     socket = null;
   }
 
-  public void startClient() 
+  public void startClient(String incName) 
   {
      try 
      {

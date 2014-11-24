@@ -29,7 +29,7 @@ public class ClientThread extends Thread
   {
 	// for debugging information
 	System.out.println("Running " + clientThreadName);
-	clientSocket.startClient();
+	clientSocket.startClient(clientThreadName);
     //setup variables
     while (true)
     {
