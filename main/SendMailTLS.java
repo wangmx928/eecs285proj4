@@ -42,7 +42,7 @@ public class SendMailTLS {
                     + "to request songs for a playlist.  In order to do so, "
                     + "open up the playlist manager program, select 'Submit a "
                     + "Request for an Existing Playlist', and type in the "
-                    + "provided IP Address and Port Number\n\n"
+                    + "provided IP Address\n\n"
                     + "IP Address: " + ip + "\n\n"
                     + "Have fun!";
             message.setText(messageText);

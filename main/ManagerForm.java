@@ -36,6 +36,9 @@ public class ManagerForm extends JFrame {
     
     private MusicPlayer myPlayer;
     
+    private String ipAddress;
+    private final int portNum = 8000;
+    
     public class ManagerActionListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e) {
@@ -162,7 +165,7 @@ public class ManagerForm extends JFrame {
                 if(addressList != "")
                 {
                     SendMailTLS sendEmails = new SendMailTLS();
-                    sendEmails.emailMe(addressList, "Test", 4234);
+                    sendEmails.emailMe(addressList, ipAddress);
                 }
             }
             else if(e.getSource() == sortOption)
@@ -173,9 +176,11 @@ public class ManagerForm extends JFrame {
         
     }
     
-    public ManagerForm(String inTitle, ArrayList<Song> mp3s)
+    public ManagerForm(String inTitle, ArrayList<Song> mp3s, String inIPAddress)
     {
         super(inTitle);
+        
+        ipAddress = inIPAddress;
         
         ManagerActionListener myActionListener = new ManagerActionListener();
         
