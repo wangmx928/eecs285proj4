@@ -33,13 +33,13 @@ public class WelcomeWindow extends JFrame {
                 {
                     File musicDirectory = chooser.getSelectedFile();
                     File allFiles[] = musicDirectory.listFiles();
-                    ArrayList <File> songs = new ArrayList<File>();
+                    ArrayList <Song> songs = new ArrayList<Song>();
                     for(File f : allFiles)
                     {
                         String fileName = f.getName();
                         if(fileName.substring(fileName.lastIndexOf(".")).equals(".mp3"))
                         {
-                            songs.add(f);  
+                            songs.add(new Song(f));  
                         }
                     }
                     dispose();
@@ -51,17 +51,31 @@ public class WelcomeWindow extends JFrame {
                     
                     // creating the server side
                     ClientServerSocket serverSock;
-					try {
-						// debug information
-						System.out.println(Inet4Address.getLocalHost().getHostAddress());
-						serverSock = new ClientServerSocket(Inet4Address.getLocalHost().getHostAddress(), 9999);
-						
-						// new thread running
-						(new ServerThread(serverSock)).start();
-					} catch (UnknownHostException e1) {
-						System.out.println("Error of unknown host");
-						System.exit(10);
-					}
+                    try {
+                        // debug information
+                        System.out.println(Inet4Address.getLocalHost().getHostAddress());
+                        serverSock = new ClientServerSocket(Inet4Address.getLocalHost().getHostAddress(), 9999);
+                        
+                        // new thread running
+                        (new ServerThread(serverSock)).start();
+                    } catch (UnknownHostException e1) {
+                        System.out.println("Error of unknown host");
+                        System.exit(10);
+                    }
+                    boolean tagError = false;
+                    for(Song s : songs)
+                    {
+                        if(s.getTagError() == true)
+                        {
+                            tagError = true;
+                        }
+                    }
+                    if(tagError)
+                    {
+                        JOptionPane.showMessageDialog(playlistForm, 
+                                "We encountered an error when trying to read "
+                                + "some of your mp3 files.");
+                    }
                 }
             }
             else if(e.getSource() == openExistingPlaylist)
