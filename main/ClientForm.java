@@ -107,4 +107,13 @@ public class ClientForm extends JFrame {
         return playlistModel;
     }
     
+    public void setRequestListModel(ListModel<Song> inRequestList)
+    {
+        requestListModel = inRequestList;
+    }
+    public void setPlaylistModel(ListModel<Song> inPlaylist)
+    {
+        playlistModel = inPlaylist;
+    }
+    
 }
