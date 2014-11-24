@@ -8,10 +8,10 @@ import java.awt.event.ActionListener;
 
 public class ClientForm extends JFrame {
     
-    private JList<String> requestList;
-    private JList<String> playlist;
-    private DefaultListModel<String> requestListModel;
-    private DefaultListModel<String> playlistModel;
+    private JList<Song> requestList;
+    private JList<Song> playlist;
+    private DefaultListModel<Song> requestListModel;
+    private DefaultListModel<Song> playlistModel;
     
     private JButton submitRequestButton;
     
@@ -40,8 +40,8 @@ public class ClientForm extends JFrame {
         setResizable(false);
         
         JScrollPane requestListPane = new JScrollPane();
-        requestList = new JList<String>();
-        requestListModel = new DefaultListModel<String>();
+        requestList = new JList<Song>();
+        requestListModel = new DefaultListModel<Song>();
         requestList.setModel(requestListModel);
         requestListPane.setViewportView(requestList);
         requestListPane.setPreferredSize(new Dimension(500, 400));
@@ -70,8 +70,8 @@ public class ClientForm extends JFrame {
         
         JLabel playlistLabel = new JLabel("Initial Playlist:");
         JScrollPane playlistPane = new JScrollPane();
-        playlist = new JList<String>();
-        playlistModel = new DefaultListModel<String>();
+        playlist = new JList<Song>();
+        playlistModel = new DefaultListModel<Song>();
         playlist.setModel(playlistModel);
         playlistPane.setViewportView(playlist);
         playlistPane.setPreferredSize(new Dimension(500, 400));
@@ -98,20 +98,20 @@ public class ClientForm extends JFrame {
         add(totalPanel);
     }
     
-    public ListModel<Song> getRequestListModel()
+    public DefaultListModel<Song> getRequestListModel()
     {
         return requestListModel;
     }
-    public ListModel<Song> getPlaylistModel()
+    public DefaultListModel<Song> getPlaylistModel()
     {
         return playlistModel;
     }
     
-    public void setRequestListModel(ListModel<Song> inRequestList)
+    public void setRequestListModel(DefaultListModel<Song> inRequestList)
     {
         requestListModel = inRequestList;
     }
-    public void setPlaylistModel(ListModel<Song> inPlaylist)
+    public void setPlaylistModel(DefaultListModel<Song> inPlaylist)
     {
         playlistModel = inPlaylist;
     }
