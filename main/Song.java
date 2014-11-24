@@ -15,6 +15,15 @@ public class Song
   
   private boolean tagError;
 
+  public Song(String inSongTitle, String inArtist, int inVoteCount)
+    {
+        songTitle = inSongTitle;
+        artist = inArtist;
+        voteCount = inVoteCount;
+        fileName = null;
+        tagError = false;
+    }
+
   public Song(File inFile)
   {
     tagError = false;
