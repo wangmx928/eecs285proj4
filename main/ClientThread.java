@@ -1,4 +1,7 @@
 package eecs285.proj4;
+
+import javax.swing.DefaultListModel;
+
 /**
  * Thread class for all clients.
  * Each client added has their own thread
@@ -37,26 +40,77 @@ public class ClientThread extends Thread
       // for debugging information
       System.out.println("clientSocket recvString: " + inData);
       
-      //TODO parse string
-      ConnectionActionTypeEnum action = null;
+
+      String action = "";
+      int i = 0;
+      while(inData.charAt(i) != '\n')
+      {
+        action = action + inData.charAt(i);
+        ++i;
+      }
           
-      if (action == ConnectionActionTypeEnum.LIST_REQUEST)
+      if (action == "LIST_REQUEST")
       {
-        //send list
+        sendPlaylist();
+        sendRequestList();
       }
-      else if (action == ConnectionActionTypeEnum.SONG_REQUEST)
-      {
-        //ask for approval
-      }
-      else if (action == ConnectionActionTypeEnum.VOTE){
-        //add to vote tally
+      else if (action == "VOTE"){
+        String inSong = ""; 
+        while(inData.charAt(i) != '\n')
+        {
+          inSong = inSong + inData.charAt(i);
+          ++i;
+        }
+        DefaultListModel<Song> songRequestList = (DefaultListModel<Song>) ManagerForm.getLibraryListModel();
+        
+        for(int j = 0; j < songRequestList.getSize(); j++){
+        	Song curSong = songRequestList.getElementAt(j);
+        	if (inSong == curSong.playlistString())
+            {
+              curSong.addOneVote();
+              break;
+            }
+        }
+        ManagerForm.updateRequestList(songRequestList);
+        
+        sendPlaylist();
+        sendRequestList();
       }
       else {
     	// for debugging information
-    	System.out.println("Thraed " + clientThreadName + " error");
+    	System.out.println("Thread " + clientThreadName + " error");
       }
       
     }
   }
 
+
+  private void sendRequestList()  
+  { 
+    DefaultListModel<Song> requestListModel = (DefaultListModel<Song>) ManagerForm.getLibraryListModel();
+    String toSend = "REQUESTS: \n";
+    
+    for(int i = 0; i < requestListModel.getSize(); i++)
+    {
+      Song curSong = requestListModel.elementAt(i);
+      toSend = toSend + curSong.toString() + '\n';
+    }
+    clientSocket.sendString(toSend);
+  }
+  private void sendPlaylist()
+  {
+	  DefaultListModel<Song> playlistListModel = (DefaultListModel<Song>) ManagerForm.getPlaylistModel();
+
+    String toSend = "PLAYLIST: \n";
+    for(int i = 0; i < playlistListModel.getSize(); i++)
+    {
+      Song curSong = playlistListModel.elementAt(i);
+      toSend = toSend + curSong.playlistString() + '\n';
+    }
+    
+    clientSocket.sendString(toSend);
+    return;
+    
+  }
+  
 }

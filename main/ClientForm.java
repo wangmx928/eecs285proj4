@@ -11,7 +11,7 @@ import java.util.Collections;
 public class ClientForm extends JFrame {
     
     private ArrayList<Song> currentLibrary;
-    
+    // private ClientSender clientSender;
     private JList<Song> requestList;
     private JList<String> playlist;
     private DefaultListModel<Song> requestListModel;
@@ -144,6 +144,12 @@ public class ClientForm extends JFrame {
     {
         requestListModel = inRequestList;
     }
+    
+    public void setRequestListArray(ArrayList<Song> inRequestList)
+    {
+    	currentLibrary = inRequestList;
+    }
+    
     public void setPlaylistModel(DefaultListModel<String> inPlaylist)
     {
         playlistModel = inPlaylist;
