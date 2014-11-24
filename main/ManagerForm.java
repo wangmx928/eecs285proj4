@@ -390,11 +390,11 @@ public class ManagerForm extends JFrame {
             libraryList.setModel(libraryListModel);
         }
     }
-    public static ListModel<Song> getLibraryListModel()
+    public static DefaultListModel<Song> getLibraryListModel()
     {
         return libraryListModel;
     }
-    public static ListModel<Song> getPlaylistModel()
+    public static DefaultListModel<Song> getPlaylistModel()
     {
         return playlistModel;
     }

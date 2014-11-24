@@ -61,7 +61,7 @@ public class ClientThread extends Thread
           inSong = inSong + inData.charAt(i);
           ++i;
         }
-        DefaultListModel<Song> songRequestList = (DefaultListModel<Song>) ManagerForm.getLibraryListModel();
+        DefaultListModel<Song> songRequestList = ManagerForm.getLibraryListModel();
         
         for(int j = 0; j < songRequestList.getSize(); j++){
         	Song curSong = songRequestList.getElementAt(j);
@@ -87,7 +87,7 @@ public class ClientThread extends Thread
 
   private void sendRequestList()  
   { 
-    DefaultListModel<Song> requestListModel = (DefaultListModel<Song>) ManagerForm.getLibraryListModel();
+    DefaultListModel<Song> requestListModel = ManagerForm.getLibraryListModel();
     String toSend = "REQUESTS: \n";
     
     for(int i = 0; i < requestListModel.getSize(); i++)
@@ -99,7 +99,7 @@ public class ClientThread extends Thread
   }
   private void sendPlaylist()
   {
-	  DefaultListModel<Song> playlistListModel = (DefaultListModel<Song>) ManagerForm.getPlaylistModel();
+	  DefaultListModel<Song> playlistListModel = ManagerForm.getPlaylistModel();
 
     String toSend = "PLAYLIST: \n";
     for(int i = 0; i < playlistListModel.getSize(); i++)
