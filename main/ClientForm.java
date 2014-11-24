@@ -19,12 +19,17 @@ public class ClientForm extends JFrame {
     private JComboBox<String> sortOption;
     
     private JButton submitRequestButton;
+    private JButton refresh;
     
     public class ClientListener implements ActionListener
     {
         public void actionPerformed(ActionEvent e)
         {
             if(e.getSource() == submitRequestButton)
+            {
+                
+            }
+            else if(e.getSource() == refresh)
             {
                 
             }
@@ -78,11 +83,19 @@ public class ClientForm extends JFrame {
         
         sortingPanel.add(sortLabel);
         sortingPanel.add(sortOption);
+        
+        refresh = new JButton("Refresh Library and Playlist");
+        refresh.addActionListener(myListener);
+        
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout());
+        buttonsPanel.add(submitRequestButton);
+        buttonsPanel.add(refresh);
 
         leftPanel.add(sortingPanel);
         leftPanel.add(requestListPanel);
         leftPanel.add(Box.createVerticalStrut(10));
-        leftPanel.add(submitRequestButton);
+        leftPanel.add(buttonsPanel);
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         JPanel playlistPanel = new JPanel();
