@@ -36,13 +36,15 @@ public class Song
         e1.printStackTrace();
         tagError = true;
     }
-    if (songTitle.trim() == "" || songTitle == null)
+    if (songTitle == null || songTitle.trim() == "")
     {
       songTitle = inFile.getName().substring(0, inFile.getName().length() - 4);
+      tagError = true;
     }
-    if (artist.trim() == "" || artist == null)
+    if (artist == null || artist.trim() == "")
     {
       artist = "Unknown";
+      tagError = true;
     }
     voteCount = 0;
   }
