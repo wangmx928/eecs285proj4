@@ -92,7 +92,6 @@ public class ManagerForm extends JFrame {
                         String fileName = f.getName();
                         if(fileName.substring(fileName.lastIndexOf(".")).equals(".mp3"))
                         {
-                            libraryListModel.addElement(new Song(f));
                             currentLibrary.add(new Song(f));
                         }
                     }
@@ -109,6 +108,12 @@ public class ManagerForm extends JFrame {
                         JOptionPane.showMessageDialog(ManagerForm.this, 
                                 "We encountered an error when trying to read "
                                 + "some of your mp3 files.");
+                    }
+                    sortLibrary();
+                    libraryListModel = new DefaultListModel<Song>();
+                    for(Song s : currentLibrary)
+                    {
+                        libraryListModel.addElement(s);
                     }
                 }
             }
@@ -162,36 +167,7 @@ public class ManagerForm extends JFrame {
             }
             else if(e.getSource() == sortOption)
             {
-                if(sortOption.getSelectedItem() == "Song Title")
-                {
-                    Collections.sort(currentLibrary, new SongTitleComparator());
-                    libraryListModel = new DefaultListModel<Song>();
-                    for(Song s : currentLibrary)
-                    {
-                        libraryListModel.addElement(s);
-                    }
-                    libraryList.setModel(libraryListModel);
-                }
-                else if(sortOption.getSelectedItem() == "Artist")
-                {
-                    Collections.sort(currentLibrary, new SongArtistComparator());
-                    libraryListModel = new DefaultListModel<Song>();
-                    for(Song s : currentLibrary)
-                    {
-                        libraryListModel.addElement(s);
-                    }
-                    libraryList.setModel(libraryListModel);
-                }
-                else if(sortOption.getSelectedItem() == "Request Count")
-                {
-                    Collections.sort(currentLibrary, new SongVoteComparator());
-                    libraryListModel = new DefaultListModel<Song>();
-                    for(Song s : currentLibrary)
-                    {
-                        libraryListModel.addElement(s);
-                    }
-                    libraryList.setModel(libraryListModel);
-                }
+                sortLibrary();
             }
         }
         
@@ -365,6 +341,7 @@ public class ManagerForm extends JFrame {
         totalPanel.add(rightPanel);
         
         myPlayer = new MusicPlayer(new ArrayList <File>(), playlist);
+        sortLibrary();
         
         add(totalPanel);
         
@@ -378,6 +355,40 @@ public class ManagerForm extends JFrame {
             libraryListModel.addElement(s);
         }
         libraryList.setModel(libraryListModel);
+    }
+    
+    private void sortLibrary()
+    {
+        if(sortOption.getSelectedItem() == "Song Title")
+        {
+            Collections.sort(currentLibrary, new SongTitleComparator());
+            libraryListModel = new DefaultListModel<Song>();
+            for(Song s : currentLibrary)
+            {
+                libraryListModel.addElement(s);
+            }
+            libraryList.setModel(libraryListModel);
+        }
+        else if(sortOption.getSelectedItem() == "Artist")
+        {
+            Collections.sort(currentLibrary, new SongArtistComparator());
+            libraryListModel = new DefaultListModel<Song>();
+            for(Song s : currentLibrary)
+            {
+                libraryListModel.addElement(s);
+            }
+            libraryList.setModel(libraryListModel);
+        }
+        else if(sortOption.getSelectedItem() == "Request Count")
+        {
+            Collections.sort(currentLibrary, new SongVoteComparator());
+            libraryListModel = new DefaultListModel<Song>();
+            for(Song s : currentLibrary)
+            {
+                libraryListModel.addElement(s);
+            }
+            libraryList.setModel(libraryListModel);
+        }
     }
     
 }

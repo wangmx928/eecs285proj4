@@ -36,11 +36,11 @@ public class Song
         e1.printStackTrace();
         tagError = true;
     }
-    if (songTitle == "" || songTitle == null)
+    if (songTitle.trim() == "" || songTitle == null)
     {
       songTitle = inFile.getName().substring(0, inFile.getName().length() - 4);
     }
-    if (artist == "" || artist == null)
+    if (artist.trim() == "" || artist == null)
     {
       artist = "Unknown";
     }
