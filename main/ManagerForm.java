@@ -31,8 +31,8 @@ public class ManagerForm extends JFrame {
     
     private JList<Song> libraryList;
     private JList<Song> playlist;
-    private DefaultListModel<Song> libraryListModel;
-    private DefaultListModel<Song> playlistModel;
+    private static DefaultListModel<Song> libraryListModel;
+    private static DefaultListModel<Song> playlistModel;
     
     private MusicPlayer myPlayer;
     
@@ -390,14 +390,19 @@ public class ManagerForm extends JFrame {
             libraryList.setModel(libraryListModel);
         }
     }
-    public ListModel<Song> getLibraryListModel()
+    public static ListModel<Song> getLibraryListModel()
     {
         return libraryListModel;
     }
-    public ListModel<Song> getPlaylistModel()
+    public static ListModel<Song> getPlaylistModel()
     {
         return playlistModel;
     }
+
+	public static void updateRequestList(DefaultListModel<Song> songRequestList) {
+		// TODO Auto-generated method stub
+		
+	}
     
     
 }
