@@ -5,13 +5,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ClientForm extends JFrame {
     
+    private ArrayList<Song> currentLibrary;
+    
     private JList<Song> requestList;
-    private JList<Song> playlist;
+    private JList<String> playlist;
     private DefaultListModel<Song> requestListModel;
-    private DefaultListModel<Song> playlistModel;
+    private DefaultListModel<String> playlistModel;
+    private JComboBox<String> sortOption;
     
     private JButton submitRequestButton;
     
@@ -21,11 +26,11 @@ public class ClientForm extends JFrame {
         {
             if(e.getSource() == submitRequestButton)
             {
-                SongRequestForm newRequest = new SongRequestForm(
-                        "Submit a Song Request", 
-                        ClientForm.this);
-                newRequest.pack();
-                newRequest.setVisible(true);
+                
+            }
+            else if(e.getSource() == sortOption)
+            {
+                sortLibrary();
             }
         }
     }
@@ -56,10 +61,25 @@ public class ClientForm extends JFrame {
         requestListPanel.add(requestListLabel, BorderLayout.NORTH);
         requestListPanel.add(requestListPane, BorderLayout.CENTER);
         
-        submitRequestButton = new JButton("Submit a Song Request");
+        submitRequestButton = new JButton("Request the Selected Song");
         submitRequestButton.addActionListener(myListener);
         submitRequestButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        JPanel sortingPanel = new JPanel();
+        sortingPanel.setLayout(new FlowLayout());
+        
+        JLabel sortLabel = new JLabel("Sort Library By:");
+        
+        sortOption = new JComboBox<String>();
+        sortOption.addItem("Song Title");
+        sortOption.addItem("Artist");
+        sortOption.addItem("Request Count");
+        sortOption.addActionListener(myListener);
+        
+        sortingPanel.add(sortLabel);
+        sortingPanel.add(sortOption);
 
+        leftPanel.add(sortingPanel);
         leftPanel.add(requestListPanel);
         leftPanel.add(Box.createVerticalStrut(10));
         leftPanel.add(submitRequestButton);
@@ -68,10 +88,10 @@ public class ClientForm extends JFrame {
         JPanel playlistPanel = new JPanel();
         playlistPanel.setLayout(new BorderLayout());
         
-        JLabel playlistLabel = new JLabel("Initial Playlist:");
+        JLabel playlistLabel = new JLabel("Current Playlist:");
         JScrollPane playlistPane = new JScrollPane();
-        playlist = new JList<Song>();
-        playlistModel = new DefaultListModel<Song>();
+        playlist = new JList<String>();
+        playlistModel = new DefaultListModel<String>();
         playlist.setModel(playlistModel);
         playlistPane.setViewportView(playlist);
         playlistPane.setPreferredSize(new Dimension(500, 400));
@@ -102,7 +122,7 @@ public class ClientForm extends JFrame {
     {
         return requestListModel;
     }
-    public DefaultListModel<Song> getPlaylistModel()
+    public DefaultListModel<String> getPlaylistModel()
     {
         return playlistModel;
     }
@@ -111,9 +131,43 @@ public class ClientForm extends JFrame {
     {
         requestListModel = inRequestList;
     }
-    public void setPlaylistModel(DefaultListModel<Song> inPlaylist)
+    public void setPlaylistModel(DefaultListModel<String> inPlaylist)
     {
         playlistModel = inPlaylist;
+    }
+    
+    private void sortLibrary()
+    {
+        if(sortOption.getSelectedItem() == "Song Title")
+        {
+            Collections.sort(currentLibrary, new SongTitleComparator());
+            requestListModel = new DefaultListModel<Song>();
+            for(Song s : currentLibrary)
+            {
+                requestListModel.addElement(s);
+            }
+            requestList.setModel(requestListModel);
+        }
+        else if(sortOption.getSelectedItem() == "Artist")
+        {
+            Collections.sort(currentLibrary, new SongArtistComparator());
+            requestListModel = new DefaultListModel<Song>();
+            for(Song s : currentLibrary)
+            {
+                requestListModel.addElement(s);
+            }
+            requestList.setModel(requestListModel);
+        }
+        else if(sortOption.getSelectedItem() == "Request Count")
+        {
+            Collections.sort(currentLibrary, new SongVoteComparator());
+            requestListModel = new DefaultListModel<Song>();
+            for(Song s : currentLibrary)
+            {
+                requestListModel.addElement(s);
+            }
+            requestList.setModel(requestListModel);
+        }
     }
     
 }
