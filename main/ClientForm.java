@@ -28,7 +28,7 @@ public class ClientForm extends JFrame {
         {
             if(e.getSource() == submitRequestButton)
             {
-              socket.sendString(String.format("VOTE %s", requestList.getSelectedValue().playlistString()));
+              socket.sendString(String.format("VOTE\n%s", requestList.getSelectedValue().playlistString()));
             }
             else if(e.getSource() == refresh)
             {
