@@ -47,6 +47,7 @@ public class ServerTask extends Thread{
 		       }
 		       else if (action.equals("VOTE"))
 		       {
+		         serverSocket.sendString("VOTE");
 		         String inSong = ""; 
 		         while(inData.charAt(i) != '\n')
 		         {

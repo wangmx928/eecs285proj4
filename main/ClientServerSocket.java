@@ -65,6 +65,11 @@ public class ClientServerSocket
     	   }
     	   else if(action.equals("VOTE")){
     		   System.out.println("Client gets action INFO: " + action);
+    		   newPlaylist = recvString();
+           newRequestList = recvString();
+           ClientSender clientSender = new ClientSender(this, inclientForm);
+           clientSender.updatePlaylist(newPlaylist);
+           clientSender.updateRequestList(newRequestList);
     	   }
     	   else{
 
