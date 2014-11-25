@@ -37,13 +37,16 @@ public class ServerTask extends Thread{
 		         action = action + inData.charAt(i);
 		         ++i;
 		       }
-		           
-		       if (action == "LIST_REQUEST")
+		       System.out.println("here is the action before if else in ServerTask.java: " + action);
+		       if (action.equals("LIST_REQUEST"))
 		       {
+		    	 serverSocket.sendString("LIST_REQUEST");
+		    	 System.out.println("Server thread gets action list_request, sent Playlist info and requestlist info");
 		         sendPlaylist();
 		         sendRequestList();
 		       }
-		       else if (action == "VOTE"){
+		       else if (action.equals("VOTE"))
+		       {
 		         String inSong = ""; 
 		         while(inData.charAt(i) != '\n')
 		         {
@@ -105,7 +108,7 @@ public class ServerTask extends Thread{
 	      Song curSong = playlistListModel.elementAt(i);
 	      toSend = toSend + curSong.playlistString() + '\n';
 	    }
-	    
+	    System.out.println(toSend);
 	    serverSocket.sendString(toSend);
 	    return;
 	    

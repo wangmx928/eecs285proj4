@@ -17,9 +17,10 @@ public class ClientForm extends JFrame {
     private DefaultListModel<Song> requestListModel;
     private DefaultListModel<String> playlistModel;
     private JComboBox<String> sortOption;
-    
     private JButton submitRequestButton;
     private JButton refresh;
+    
+    private ClientServerSocket socket;
     
     public class ClientListener implements ActionListener
     {
@@ -31,7 +32,8 @@ public class ClientForm extends JFrame {
             }
             else if(e.getSource() == refresh)
             {
-                
+            	socket.sendString("LIST_REQUEST");
+            	System.out.println("Send list_request from client form");
             }
             else if(e.getSource() == sortOption)
             {
@@ -40,9 +42,11 @@ public class ClientForm extends JFrame {
         }
     }
     
-    public ClientForm(String inTitle, String ipAddress, Integer portNum)
+    public ClientForm(String inTitle, String ipAddress, Integer portNum, ClientServerSocket insocket)
     {
         super(inTitle);
+        
+        socket = insocket;
         
         ClientListener myListener = new ClientListener();
         
@@ -143,16 +147,19 @@ public class ClientForm extends JFrame {
     public void setRequestListModel(DefaultListModel<Song> inRequestList)
     {
         requestListModel = inRequestList;
+        requestList.setModel(requestListModel);
     }
     
     public void setRequestListArray(ArrayList<Song> inRequestList)
     {
     	currentLibrary = inRequestList;
+    	
     }
     
     public void setPlaylistModel(DefaultListModel<String> inPlaylist)
     {
         playlistModel = inPlaylist;
+        playlist.setModel(playlistModel);
     }
     
     private void sortLibrary()

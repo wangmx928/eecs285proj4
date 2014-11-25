@@ -26,19 +26,25 @@ public class ConnectionWindow extends JFrame {
                 	String inIpAdd = ipAdd.getText();	
                     String inNickName = nameString.getText();
                     
+                    
+                    // start client thread and connection to the server
+                    ClientServerSocket csSocket = new ClientServerSocket(inIpAdd, 8000);
+                    
                     ClientForm myForm = new ClientForm("Playlist Request Form"
-                            , ipAdd.getText(), 8000);
+                            , ipAdd.getText(), 8000, csSocket);
+                    
+                    //ClientList.addClient(csSocket, inNickName);
+                    Client curClient = new Client(csSocket, inNickName, myForm);
+                    
+                    
                     dispose();
                     myForm.pack();
                     myForm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                     
                     
-                    // start client thread and connection to the server
-                    ClientServerSocket csSocket = new ClientServerSocket(inIpAdd, 8000);
-                    //ClientList.addClient(csSocket, inNickName);
-                    Client curClient = new Client(csSocket, inNickName, myForm);
                     
-                    myForm.setVisible(true);
+                    
+                   //  myForm.setVisible(true);
                 }
                 catch (NumberFormatException e1)
                 {

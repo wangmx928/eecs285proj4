@@ -49,18 +49,34 @@ public class ClientServerSocket
        String result = recvString();
        // DEBUG INFORMATION
        System.out.println("Getting data from server: " + result);
-       
-       String newPlaylist = recvString();
-       String newRequestList = recvString();
-       ClientSender clientSender = new ClientSender(this, inclientForm);
-       clientSender.updatePlaylist(newPlaylist);
-       clientSender.updateRequestList(newRequestList);
-       // System.out.println(recvString());
-       
+
+       String newPlaylist, newRequestList;
+       String action = "LIST_REQUEST";
+       while(true){
+    	   action = recvString();
+    	   System.out.println("Client gets action INFO: " + action);
+
+    	   if(action.equals("LIST_REQUEST")){
+    		   newPlaylist = recvString();
+    		   newRequestList = recvString();
+    		   ClientSender clientSender = new ClientSender(this, inclientForm);
+    		   clientSender.updatePlaylist(newPlaylist);
+    		   clientSender.updateRequestList(newRequestList);
+    	   }
+    	   else if(action.equals("VOTE")){
+    		   System.out.println("Client gets action INFO: " + action);
+    	   }
+    	   else{
+
+    		   // for debugging information
+    		   System.out.println("Error in startClient \"" + this + "\" error");
+    	   }
+       }
+
      }
      catch (IOException ioe) 
      {
-       out.println("ERROR: Unable to connect - " + "is the server running?");
+    	 out.println("ERROR: Unable to connect - " + "is the server running?");
 
        System.exit(10); 
        }
