@@ -67,6 +67,15 @@ public class EmailForm extends JDialog
     totalPanel.add(emailPane);
     totalPanel.add(buttonPanel);
 
+    //change display
+    Font fon = new Font("Courier", Font.PLAIN, 12);
+    Color colo = Color.getHSBColor(0, 30, 200);
+    instrLabel.setFont(fon);
+    ok.setFont(fon);
+    cancel.setFont(fon);
+    buttonPanel.setBackground(colo);
+    totalPanel.setBackground(colo);
+    
     add(totalPanel);
   }
 
