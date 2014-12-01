@@ -52,7 +52,14 @@ public class ClientForm extends JFrame
       ClientServerSocket insocket)
   {
     super(inTitle);
-
+    addWindowListener(new WindowAdapter() {
+    	@Override
+    	public void windowClosing(WindowEvent arg0){
+    		System.out.println("Closing");
+    		socket.sendString("THREAD_EXIT\n");
+    		System.out.println("this thread sent exit message");
+    	}
+    });
     socket = insocket;
 
     ClientListener myListener = new ClientListener();

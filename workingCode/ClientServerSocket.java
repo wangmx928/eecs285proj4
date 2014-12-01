@@ -125,7 +125,7 @@ public class ClientServerSocket
 
         ClientList.addClient(cName);
         // create a new thread to deal with it
-        (new ServerTask(socket, this, parentManagerWindow)).start();
+        (new ServerTask(socket, this, parentManagerWindow)).run();
 
 
         System.out.println("Still running");

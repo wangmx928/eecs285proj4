@@ -80,12 +80,21 @@ public class ServerTask extends Thread
         }
 
       }
-      else
-      {
-        // for debugging information
-        System.out.println("Thread \"" + serverSocket + "\" error");
+      else if(action.equals("THREAD_EXIT")){
+		   System.out.println("ServerTask gets action INFO: " + action);
+		   //System.out.println("Exit: Client " + cName);
+		   //ClientList.removeClient(cName);
+		   //ClientList.printArrayList();
+		   // if(ClientList.number() != 0){
+		   socket.close();
+		   // }
+		   break;
+		   //this.sleep(10000000);
+	   }
+      else {
+    	// for debugging information
+    	System.out.println("Thread \"" + serverSocket + "\" error\n" + action);
       }
-
     }
   }
 
