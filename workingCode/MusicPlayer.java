@@ -16,42 +16,42 @@ public class MusicPlayer
 {
   public int i = 0;
   public boolean repeat;
-  public ArrayList <File> songs;
+  public ArrayList<File> songs;
   public String[] titles;
   public String[] artists;
   public BasicPlayer player = new BasicPlayer();
   public PlayerListener playerListener = new PlayerListener();
-  
+
   private JList<Song> playlist;
-  
-  public MusicPlayer(ArrayList <File> args, JList<Song> inPlaylist)
+
+  public MusicPlayer(ArrayList<File> args, JList<Song> inPlaylist)
   {
-    songs = new ArrayList <File>();
-    for (File f : args)
+    songs = new ArrayList<File>();
+    for( File f : args )
     {
-        songs.add(f);
+      songs.add(f);
     }
-    //check here
+    // check here
     player.addBasicPlayerListener(playerListener);
-    
+
     playlist = inPlaylist;
   }
-  
+
   public String[] getTitles()
   {
     return titles;
   }
-  
+
   public String[] getArtists()
   {
     return artists;
   }
-  
-  public ArrayList <File> getInfo()
+
+  public ArrayList<File> getInfo()
   {
     return songs;
   }
-  
+
   public String getCurrentTitle()
   {
     return titles[i];
@@ -61,12 +61,12 @@ public class MusicPlayer
   {
     return artists[i];
   }
-  
+
   public void addSong(File song)
   {
     songs.add(song);
   }
-  
+
   private void startMusic()
   {
     try
@@ -79,17 +79,17 @@ public class MusicPlayer
       player.open(songFile);
       player.play();
     }
-    catch (BasicPlayerException bpe)
+    catch( BasicPlayerException bpe )
     {
       bpe.printStackTrace();
     }
   }
-  
+
   public void playMusic()
   {
     try
     {
-      if (player.getStatus() < 0)
+      if( player.getStatus() < 0 )
       {
         startMusic();
       }
@@ -102,7 +102,7 @@ public class MusicPlayer
     {
     }
   }
-  
+
   public void pauseMusic()
   {
     try
@@ -111,10 +111,10 @@ public class MusicPlayer
     }
     catch( BasicPlayerException e )
     {
-      //e.printStackTrace();
+      // e.printStackTrace();
     }
   }
-  
+
   public void skipMusic()
   {
     try
@@ -131,7 +131,7 @@ public class MusicPlayer
       e.printStackTrace();
     }
   }
-  
+
   public void stopMusic()
   {
     try
@@ -146,12 +146,12 @@ public class MusicPlayer
       e1.printStackTrace();
     }
   }
-  
+
   public void setRepeat(boolean bool)
   {
     repeat = bool;
   }
-  
+
   public void setCurrentSong(int index)
   {
     try
@@ -166,21 +166,21 @@ public class MusicPlayer
       e.printStackTrace();
     }
   }
-  
-  public void setPlaylist(ArrayList <File> songsIn)
+
+  public void setPlaylist(ArrayList<File> songsIn)
   {
     songs = new ArrayList<File>();
-    for(File f : songsIn)
+    for( File f : songsIn )
     {
-        songs.add(f);
+      songs.add(f);
     }
   }
-  
+
   public void addBasicPlayerListener(BasicPlayerListener bpl)
   {
     player.addBasicPlayerListener(bpl);
   }
-  
+
   public class PlayerListener implements BasicPlayerListener
   {
 
@@ -188,7 +188,8 @@ public class MusicPlayer
     public void opened(Object arg0, Map arg1)
     {
       System.out.println("Opened");
-      //MusicGUI.setCurrentSongDisplay(getCurrentTitle() + " - " + getCurrentArtist());
+      // MusicGUI.setCurrentSongDisplay(getCurrentTitle() + " - " +
+      // getCurrentArtist());
     }
 
     @Override
@@ -206,13 +207,13 @@ public class MusicPlayer
     public void stateUpdated(BasicPlayerEvent arg0)
     {
       System.out.println("State Updated " + player.getStatus());
-      if (player.getStatus() == 2)
+      if( player.getStatus() == 2 )
       {
         skipMusic();
       }
-      else if (player.getStatus() == -1)
+      else if( player.getStatus() == -1 )
       {
-        //MusicGUI.setCurrentSongDisplay("");
+        // MusicGUI.setCurrentSongDisplay("");
       }
     }
   }
